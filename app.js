@@ -58,12 +58,14 @@ const sessionOptions = {
 if (process.env.NODE_ENV === "production") {
     app.set("trust proxy", 1);
 }
-
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("Session secure:", sessionOptions.cookie.secure);
 app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-
+console.log("Google Client ID:", GOOGLE_CLIENT_ID);
+console.log("Google Callback URL:", process.env.GOOGLE_CALLBACK_URL);
 passport.use(new LocalStrategy({
     usernameField: "email"
 }, User.authenticate()
