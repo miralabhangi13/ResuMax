@@ -66,7 +66,7 @@ router.get("/auth/google/callback",
 router.get("/forgot-password", (req, res) => {
     res.render("users/forgot");
 })
-router.post("/forgot-password", authLimit, isLoggedIn, wrapAsync(userController.forgot))
+router.post("/forgot-password", authLimit, wrapAsync(userController.forgot))
 router.post("/verify-otp", authLimit, isLoggedIn, wrapAsync(async (req, res) => {
     const { email } = req.body;
     const otp = Number(req.body.otp);
@@ -236,7 +236,7 @@ router.post("/resend-verification-otp", authLimit, isLoggedIn, async (req, res) 
         });
     }
 });
-router.post("/resend-otp", authLimit, isLoggedIn, async (req, res) => {
+router.post("/resend-otp", authLimit, async (req, res) => {
     try {
         const { email } = req.body;
 
