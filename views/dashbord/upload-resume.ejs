@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume | ResuMax</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --bs-primary: #4F46E5;
+            --primary-blue: #3B82F6;
+            --primary-purple: #8B5CF6;
+            --text-purple: #7C3AED;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: white;
+        }
+
+        .btn-gradient:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+        
+        .btn-gradient:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Background Blobs */
+        .blob {
+            position: fixed;
+            filter: blur(90px);
+            z-index: -1;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: var(--primary-blue);
+        }
+
+        .shape-2 {
+            bottom: -10%;
+            right: -5%;
+            width: 400px;
+            height: 400px;
+            background: var(--primary-purple);
+        }
+
+        /* Layout Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        /* Drag and Drop Zone */
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            background-color: #f8fafc;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .upload-zone:hover, .upload-zone.drag-active {
+            border-color: var(--primary-purple);
+            background-color: rgba(139, 92, 246, 0.05);
+        }
+
+        .upload-zone.drag-active {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .upload-zone:hover .upload-icon {
+            transform: translateY(-5px);
+        }
+
+        /* File Preview State */
+        .file-preview {
+            display: none;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        
+        .file-preview.active {
+            display: flex;
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .file-icon.pdf { background-color: #fef2f2; color: #ef4444; }
+        .file-icon.word { background-color: #eff6ff; color: #3b82f6; }
+
+        .remove-file {
+            background: none;
+            border: none;
+            color: #ef4444;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .remove-file:hover {
+            background-color: #fef2f2;
+        }
+
+        /* Benefits Panel */
+        .benefits-panel {
+            background: linear-gradient(135deg, #f1f5f9 0%, #ffffff 100%);
+            height: 100%;
+            border-left: 1px solid #e2e8f0;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Custom Toast */
+        .custom-toast {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, -150%);
+            background-color: #ffffff;
+            padding: 1rem 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 9999;
+            width: 90%;
+            max-width: 400px;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            pointer-events: none;
+        }
+        .custom-toast.show { transform: translate(-50%, 0); }
+        .custom-toast .icon-wrapper {
+            background-color: #fef2f2; color: #ef4444; width: 32px; height: 32px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background decorative elements -->
+    <div class="blob shape-1"></div>
+    <div class="blob shape-2"></div>
+
+    <!-- Custom Toast -->
+    <div id="customToast" class="custom-toast">
+        <div class="icon-wrapper"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        <div class="message fw-medium text-dark small" id="toastMessage"></div>
+    </div>
+
+    <!-- Navigation Area -->
+    <div class="container pt-4 mb-2">
+        <a href="/dashbord" class="text-decoration-none text-muted fw-medium d-inline-flex align-items-center gap-2 hover-primary transition">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+                <div class="glass-card">
+                    <div class="row g-0">
+                        
+                        <!-- Left Side: Upload Zone -->
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="mb-4">
+                                <h2 class="fw-bold fs-3 mb-2">Upload Resume</h2>
+                                <p class="text-muted">Upload your existing resume to get instant feedback and improvements.</p>
+                            </div>
+
+                            <form action="/resume/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+                                
+                                <!-- Hidden File Input -->
+                                <input type="file" id="fileInput" name="resumeFile" accept=".pdf,.doc,.docx" class="d-none" required>
+
+                                <!-- Drag and Drop Area -->
+                                <div class="upload-zone" id="dropZone">
+                                    <i class="bi bi-cloud-arrow-up-fill upload-icon"></i>
+                                    <h5 class="fw-bold text-dark mb-2">Drag & drop your file here</h5>
+                                    <p class="text-muted small mb-3">or <span class="text-primary fw-semibold">browse files</span> from your computer</p>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 text-muted small">
+                                        <span class="badge bg-light text-secondary border">PDF</span>
+                                        <span class="badge bg-light text-secondary border">DOC</span>
+                                        <span class="badge bg-light text-secondary border">DOCX</span>
+                                        <span>• Max 5MB</span>
+                                    </div>
+                                </div>
+
+                                <!-- Selected File Preview -->
+                                <div class="file-preview" id="filePreview">
+                                    <div class="d-flex align-items-center gap-3 overflow-hidden">
+                                        <div class="file-icon" id="fileIcon">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                        </div>
+                                        <div class="overflow-hidden">
+                                            <h6 class="fw-semibold mb-0 text-truncate" id="fileName" style="max-width: 200px;">resume.pdf</h6>
+                                            <small class="text-muted" id="fileSize">2.4 MB</small>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-file" id="removeBtn" aria-label="Remove file">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </div>
+
+                                <div class="mt-4 pt-2">
+                                    <button type="submit" class="btn btn-gradient w-100 rounded-pill py-3 fw-bold fs-6 shadow-sm" id="submitBtn" disabled>
+                                        Analyze Resume Now <i class="bi bi-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Right Side: Benefits Panel -->
+                        <div class="col-md-5 benefits-panel p-4 p-lg-5 d-none d-md-block">
+                            <h4 class="fw-bold mb-4">What happens next?</h4>
+                            
+                            <div class="benefit-item">
+                                <div class="benefit-icon text-primary">
+                                    <i class="bi bi-radar"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">ATS Compatibility Score</h6>
+                                    <p class="text-muted small mb-0">We parse your file exactly like standard tracking systems do to generate a real-world score.</p>
+                                </div>
+                            </div>
+
+                            <div class="benefit-item">
+                                <div class="benefit-icon text-purple">
+                                    <i class="bi bi-magic"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">AI-Powered Suggestions</h6>
+                                    <p class="text-muted small mb-0">Our AI identifies weak bullet points and suggests powerful, action-oriented rewrites.</p>
+                                </div>
+                            </div>
+
+                            <div class="benefit-item">
+                                <div class="benefit-icon text-success">
+                                    <i class="bi bi-key"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Keyword Gap Analysis</h6>
+                                    <p class="text-muted small mb-0">Discover which industry-standard keywords are missing from your current document.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-white rounded-3 border shadow-sm">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-shield-check text-success fs-5"></i>
+                                    <span class="fw-bold text-dark fs-6">100% Secure</span>
+                                </div>
+                                <p class="text-muted small mb-0 lh-sm">Your files are encrypted and processed securely. We never share your data with third parties.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Vanilla JS Logic for Drag & Drop, Validation, and Server Error Handling -->
+    <script>
+        // DOM Elements
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('filePreview');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const fileIcon = document.getElementById('fileIcon');
+        const removeBtn = document.getElementById('removeBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        // Allowed File Types & Max Size (5MB)
+        const allowedTypes = [
+            'application/pdf', 
+            'application/msword', 
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+
+        // Custom Toast Function
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('customToast');
+            
+            // Extract message if it comes in as an array from connect-flash
+            let msgText = Array.isArray(message) ? message[0] : message;
+            document.getElementById('toastMessage').textContent = msgText;
+            
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // Check if backend passed an error message on page load, and ensure it has actual content
+        <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+            window.addEventListener('DOMContentLoaded', () => {
+                showToast(<%- JSON.stringify(error) %>);
+            });
+        <% } %>
+
+        // Format File Size
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        // Handle File Selection
+        function handleFile(file) {
+            if (!file) return;
+
+            // Validate File Type
+            if (!allowedTypes.includes(file.type)) {
+                showToast("Invalid file type. Please upload a PDF or Word document.");
+                resetUpload();
+                return;
+            }
+
+            // Validate File Size
+            if (file.size > maxFileSize) {
+                showToast("File is too large. Maximum size allowed is 5MB.");
+                resetUpload();
+                return;
+            }
+
+            // Update UI based on file extension
+            const ext = file.name.split('.').pop().toLowerCase();
+            fileIcon.className = 'file-icon'; // reset
+            if (ext === 'pdf') {
+                fileIcon.classList.add('pdf');
+                fileIcon.innerHTML = '<i class="bi bi-filetype-pdf"></i>';
+            } else {
+                fileIcon.classList.add('word');
+                fileIcon.innerHTML = '<i class="bi bi-file-word"></i>';
+            }
+
+            // Update Data
+            fileName.textContent = file.name;
+            fileSize.textContent = formatBytes(file.size);
+            
+            // Switch UI states
+            dropZone.style.display = 'none';
+            filePreview.classList.add('active');
+            submitBtn.disabled = false;
+        }
+
+        // Reset Upload State
+        function resetUpload() {
+            fileInput.value = '';
+            dropZone.style.display = 'block';
+            filePreview.classList.remove('active');
+            submitBtn.disabled = true;
+        }
+
+        // Click to browse
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        // Change event for file input
+        fileInput.addEventListener('change', (e) => {
+            handleFile(e.target.files[0]);
+        });
+
+        // Drag and Drop Events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.classList.add('drag-active');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('drag-active');
+        }
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFile(files[0]);
+            }
+        });
+
+        // Remove Button Event
+        removeBtn.addEventListener('click', resetUpload);
+
+        // Loading state on submit
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            if (!submitBtn.disabled) {
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Analyzing...';
+                submitBtn.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>

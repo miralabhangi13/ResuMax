@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Account Settings | ResuMax</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bs-primary: #4F46E5;
+            --primary-blue: #3B82F6;
+            --primary-purple: #8B5CF6;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 4rem;
+        }
+
+        .blob {
+            position: fixed;
+            filter: blur(90px);
+            z-index: -1;
+            border-radius: 50%;
+            opacity: 0.25;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: var(--primary-blue);
+        }
+
+        .shape-2 {
+            bottom: -10%;
+            right: -5%;
+            width: 400px;
+            height: 400px;
+            background: var(--primary-purple);
+        }
+
+        .saas-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02),
+                        0 2px 4px -2px rgba(0, 0, 0, 0.02);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            border-radius: 0.75rem;
+            padding: 0.6rem 1rem;
+            border: 1px solid #cbd5e1;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-control:disabled {
+            background-color: #f8fafc;
+            border-color: #e2e8f0;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .section-header {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e2e8f0;
+            margin-top: 0.5rem;
+        }
+
+        .danger-zone {
+            border: 1px solid #fecaca;
+            background-color: #fef2f2;
+        }
+
+        .custom-toast {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, -150%);
+            background-color: #ffffff;
+            padding: 1rem 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 9999;
+            width: 90%;
+            max-width: 400px;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(226, 232, 240, 1);
+            pointer-events: none;
+        }
+
+        .custom-toast.show {
+            transform: translate(-50%, 0);
+        }
+
+        .toast-error {
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .toast-error .icon-wrapper {
+            background-color: #fef2f2;
+            color: #ef4444;
+        }
+
+        .toast-success {
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+
+        .toast-success .icon-wrapper {
+            background-color: #f0fdf4;
+            color: #22c55e;
+        }
+
+        .icon-wrapper {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="blob shape-1"></div>
+    <div class="blob shape-2"></div>
+
+    <!-- Toast -->
+    <div id="customToast" class="custom-toast">
+        <div class="icon-wrapper" id="toastIcon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+        <div class="message fw-medium text-dark small" id="toastMessage"></div>
+    </div>
+
+    <div class="container py-4 py-lg-5">
+
+        <!-- Back -->
+        <div class="mb-4">
+            <a href="/dashbord" class="text-decoration-none fw-medium d-inline-flex align-items-center gap-2 bg-white px-3 py-2 rounded-pill shadow-sm border text-dark">
+                <i class="bi bi-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <!-- Heading -->
+                <div class="mb-4">
+                    <h1 class="fw-bold fs-3 mb-1">
+                        Account Settings
+                    </h1>
+                    <p class="text-muted">
+                        Manage your security, usage limits, and account data.
+                    </p>
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- ACCOUNT INFORMATION -->
+                <!-- ================================= -->
+
+                <div class="saas-card">
+                    <div class="section-header">
+                        <i class="bi bi-person-badge text-primary fs-5"></i>
+                        Account Information
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- Username -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">
+                                Username
+                            </label>
+                            <input type="text" class="form-control" value="<%= user.username %>" disabled>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">
+                                Email Address
+                            </label>
+                            <input type="email" class="form-control" value="<%= user.email %>" disabled>
+                        </div>
+
+                        <!-- Provider -->
+                        <div class="col-md-6 mt-4">
+                            <label class="form-label small fw-semibold text-muted">
+                                Account Provider
+                            </label>
+                            <div class="d-flex align-items-center gap-2 p-2 border rounded bg-light">
+                                <% if(user.googleId) { %>
+                                    <i class="bi bi-google text-danger fs-5 ms-1"></i>
+                                    <span class="fw-medium">Google Auth</span>
+                                <% } else { %>
+                                    <i class="bi bi-envelope-check text-primary fs-5 ms-1"></i>
+                                    <span class="fw-medium">Local (Password)</span>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Member Since -->
+                        <div class="col-md-6 mt-4">
+                            <label class="form-label small fw-semibold text-muted">
+                                Member Since
+                            </label>
+                            <div class="p-2 fw-medium text-dark">
+                                <%= new Date(accountCreatedDate).toLocaleDateString(
+                                    'en-US',
+                                    { month: 'long', day: 'numeric', year: 'numeric' }
+                                ) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- USAGE -->
+                <!-- ================================= -->
+
+                <div class="saas-card">
+                    <div class="section-header">
+                        <i class="bi bi-activity text-success fs-5"></i>
+                        Free Tier Usage
+                    </div>
+
+                    <!-- Resume Usage -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-end mb-1">
+                            <span class="fw-semibold text-dark">Resumes Uploaded</span>
+                            <span class="text-muted small fw-medium">
+                                <%= resumeCount %> / <%= maxResumes %> used
+                                (<%= Math.max(0, maxResumes - resumeCount) %> remaining)
+                            </span>
+                        </div>
+                        <div class="progress">
+                            <% const resumePercentage = Math.min(100, (resumeCount / maxResumes) * 100); %>
+                            <div class="progress-bar <%= resumePercentage >= 100 ? 'bg-danger' : 'bg-success' %>"
+                                role="progressbar"
+                                style="width: <%= resumePercentage %>%;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Usage -->
+                    <div>
+                        <div class="d-flex justify-content-between align-items-end mb-1">
+                            <span class="fw-semibold text-dark">AI Chatbot Questions</span>
+                            <span class="text-muted small fw-medium">
+                                <%= aiQuestionsUsed %> / <%= maxAiQuestions %> used
+                                (<%= Math.max(0, maxAiQuestions - aiQuestionsUsed) %> remaining)
+                            </span>
+                        </div>
+                        <div class="progress">
+                            <% const aiPercentage = Math.min(100, (aiQuestionsUsed / maxAiQuestions) * 100); %>
+                            <div class="progress-bar <%= aiPercentage >= 100 ? 'bg-danger' : 'bg-primary' %>"
+                                role="progressbar"
+                                style="width: <%= aiPercentage %>%;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- SECURITY -->
+                <!-- ================================= -->
+
+                <div class="saas-card">
+                    <div class="section-header">
+                        <i class="bi bi-shield-lock text-warning fs-5"></i>
+                        Security
+                    </div>
+
+                    <!-- Change Password Option (Only for Local Users) -->
+                    <% if(!user.googleId) { %>
+                        <div class="mb-4 pb-4 border-bottom">
+                            <h6 class="fw-bold mb-3 text-dark">Change Password</h6>
+                            <form action="/settings/password" method="POST" id="passwordForm">
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-4">
+                                        <label for="oldPassword" class="form-label small fw-semibold text-muted">Current Password</label>
+                                        <input type="password" class="form-control" id="oldPassword" name="oldPassword" required placeholder="Current">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="newPassword" class="form-label small fw-semibold text-muted">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required minlength="6" placeholder="New">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="confirmPassword" class="form-label small fw-semibold text-muted">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required minlength="6" placeholder="Confirm">
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        <button type="submit" class="btn btn-dark btn-sm rounded-pill px-4 fw-medium" id="pwdSubmitBtn">
+                                            Update Password
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    <% } %>
+
+                    <!-- Logout -->
+                    <div>
+                        <h6 class="fw-bold mb-3 text-dark">Active Session</h6>
+                        <form action="/logout" method="POST" class="m-0">
+                            <button type="submit" class="btn btn-light border fw-medium rounded-pill px-4 text-dark shadow-sm">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- DANGER ZONE -->
+                <!-- ================================= -->
+
+                <div class="saas-card danger-zone mt-5">
+                    <div class="section-header text-danger">
+                        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                        Danger Zone
+                    </div>
+
+                    <p class="text-danger mb-3 fw-medium">
+                        Deleting your account will permanently remove all your data, including uploaded resumes, ATS scores, and chat history.
+                        <strong>This action cannot be undone.</strong>
+                    </p>
+
+                    <form action="/settings/delete-account" method="POST" onsubmit="return confirm('Are you absolutely sure you want to delete your account? All your resumes and data will be permanently erased. This cannot be undone.');">
+                        <button type="submit" class="btn btn-danger fw-bold rounded-pill px-4">
+                            <i class="bi bi-trash3 me-2"></i> Delete Account
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const passwordForm = document.getElementById("passwordForm");
+        let toastTimeout;
+
+        function showToast(message, type = "error") {
+            const toast = document.getElementById("customToast");
+            const toastIcon = document.getElementById("toastIcon");
+
+            // Extract message if it comes in as an array from connect-flash
+            let msgText = Array.isArray(message) ? message[0] : message;
+            document.getElementById("toastMessage").textContent = msgText;
+
+            toast.className = "custom-toast";
+            toast.classList.add(`toast-${type}`);
+
+            if (type === "success") {
+                toastIcon.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
+            } else {
+                toastIcon.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i>';
+            }
+
+            toast.classList.add("show");
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3500);
+        }
+
+        // Server-side messages (FIXED: Added .length > 0 check to prevent empty toasts)
+        <% if (typeof error !== "undefined" && error && error.length > 0) { %>
+            window.addEventListener("DOMContentLoaded", () => {
+                showToast(<%- JSON.stringify(error) %>, "error");
+            });
+        <% } %>
+
+        <% if (typeof success !== "undefined" && success && success.length > 0) { %>
+            window.addEventListener("DOMContentLoaded", () => {
+                showToast(<%- JSON.stringify(success) %>, "success");
+            });
+        <% } %>
+
+
+        // Password validation
+        if (passwordForm) {
+            passwordForm.addEventListener("submit", function(e) {
+                const newPassword = document.getElementById("newPassword").value;
+                const confirmPassword = document.getElementById("confirmPassword").value;
+
+                if (newPassword !== confirmPassword) {
+                    e.preventDefault();
+                    showToast("New passwords do not match.", "error");
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    e.preventDefault();
+                    showToast("Password must be at least 6 characters.", "error");
+                    return;
+                }
+
+                const submitBtn = document.getElementById("pwdSubmitBtn");
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Updating...';
+                submitBtn.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

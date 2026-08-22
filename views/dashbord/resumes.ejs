@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Resumes | ResuMax</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --bs-primary: #4F46E5;
+            --primary-blue: #3B82F6;
+            --primary-purple: #8B5CF6;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding-bottom: 4rem;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Animated Blobs */
+        .blob {
+            position: fixed;
+            filter: blur(90px);
+            z-index: -1;
+            border-radius: 50%;
+            opacity: 0.25;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: var(--primary-blue);
+            animation: float 8s ease-in-out infinite alternate;
+        }
+
+        .shape-2 {
+            bottom: -10%;
+            right: -5%;
+            width: 400px;
+            height: 400px;
+            background: var(--primary-purple);
+            animation: float 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(30px, 30px);
+            }
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            border: none;
+            color: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+
+        .hover-link {
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .hover-link:hover {
+            color: var(--bs-primary);
+        }
+
+        /* SaaS Card Aesthetics */
+        .saas-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .saas-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        /* Staggered Entrance Animation */
+        .animate-fade-up {
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Document Preview Hero Area */
+        .doc-preview {
+            height: 140px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Abstract pattern inside the preview area */
+        .doc-preview::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 16px 16px;
+            opacity: 0.3;
+        }
+
+        .doc-icon {
+            font-size: 3.5rem;
+            z-index: 1;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .icon-pdf {
+            color: #ef4444;
+        }
+
+        .icon-word {
+            color: #3b82f6;
+        }
+
+        .saas-card:hover .doc-icon {
+            transform: scale(1.1) rotate(-3deg);
+        }
+
+        /* Floating Badges */
+        .status-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 2;
+            padding: 0.35rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Card Body */
+        .card-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .doc-id-pill {
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+            padding: 0.25rem 0.6rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.75rem;
+            border: 1px solid #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        /* Perfect 50/50 Card Actions Layout */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            background-color: #ffffff;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.6rem 0.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-view {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: var(--text-dark);
+        }
+
+        .btn-view:hover {
+            background-color: #f8fafc;
+            border-color: var(--bs-primary);
+            color: var(--bs-primary);
+        }
+
+        .btn-analyze {
+            background: linear-gradient(135deg, var(--bs-primary), var(--primary-purple));
+            border: none;
+            color: white;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-analyze:hover {
+            box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            border: 1px dashed #cbd5e1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Decorative Background -->
+    <div class="blob shape-1"></div>
+    <div class="blob shape-2"></div>
+
+    <div class="container py-4 py-lg-5">
+
+        <!-- Navigation Breadcrumb -->
+        <div class="mb-4">
+            <a href="/dashbord"
+                class="text-decoration-none fw-medium d-inline-flex align-items-center gap-2 hover-link bg-white px-3 py-2 rounded-pill shadow-sm border">
+                <i class="bi bi-arrow-left"></i> Dashboard
+            </a>
+        </div>
+
+        <!-- Page Header -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-5 gap-4">
+            <div>
+                <h1 class="fw-bold fs-2 mb-2 text-dark">Document Library</h1>
+                <p class="text-muted mb-0">Select a document to view its original format or generate a deep AI analysis.
+                </p>
+            </div>
+            <div>
+                <a href="/resume/upload"
+                    class="btn btn-gradient rounded-pill px-4 py-2.5 shadow-sm fw-bold d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-cloud-arrow-up-fill fs-5"></i> Upload Resume
+                </a>
+            </div>
+        </div>
+
+        <!-- Resumes Grid -->
+        <% if (typeof resumes !== 'undefined' && resumes.length > 0) { %>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+                <% resumes.forEach((resume, index) => { 
+                    
+                    // 1. Figure out if this is a Word Doc or a PDF
+                    const urlLower = resume.resumeUrl.toLowerCase();
+                    const isWord = urlLower.includes('.doc') || urlLower.includes('.docx');
+                    const isPdf = !isWord; // If it's not a Word document, treat it as a PDF
+                    
+                    const iconClass = isPdf ? 'bi-file-earmark-pdf-fill icon-pdf' : 'bi-file-earmark-word-fill icon-word';
+                    
+                    // 2. SMART VIEWER ROUTING (PDF Inline Viewer Fix)
+                    let viewUrl = resume.resumeUrl;
+                    let btnText = "View File";
+                    let btnIcon = "bi-eye";
+
+                    if (isWord) {
+                        // Word files work perfectly with Microsoft's Web Viewer
+                        viewUrl = 'https://view.officeapps.live.com/op/view.aspx?src=' + encodeURIComponent(resume.resumeUrl);
+                        btnText = "View Word";
+                    } else if (isPdf) {
+                        // For PDFs, strip any accidental download flags
+                        viewUrl = resume.resumeUrl.replace('/upload/fl_attachment/', '/upload/');
+                        
+                        // FIX: Cloudinary hides the .pdf extension sometimes. 
+                        // If the browser doesn't see ".pdf" at the end of the URL, it downloads the file instead of opening the viewer.
+                        if (!viewUrl.toLowerCase().endsWith('.pdf')) {
+                            viewUrl += '.pdf'; 
+                        }
+                        
+                        btnText = "View PDF";
+                    }
+                    
+                    // Delay calculation for staggered entrance
+                    const delay = index * 0.1;
+                %>
+                    <div class="col animate-fade-up" style="animation-delay: <%= delay %>s;">
+                        <div class="saas-card">
+
+                            <!-- Document Preview Header -->
+                            <div class="doc-preview">
+                                <i class="bi <%= iconClass %> doc-icon"></i>
+
+                                <!-- ATS Score Floating Badge -->
+                                <% if (resume.analysis && resume.analysis.finalScore) { %>
+                                    <% let badgeColor="bg-danger" ; 
+                                       if(resume.analysis.finalScore>= 80) badgeColor = "bg-success";
+                                       else if(resume.analysis.finalScore >= 60) badgeColor = "bg-warning text-dark";
+                                    %>
+                                    <span
+                                        class="status-badge <%= badgeColor %> text-white border border-white border-opacity-25">
+                                        <i class="bi bi-stars"></i>
+                                        <%= resume.analysis.finalScore %> Score
+                                    </span>
+                                <% } else { %>
+                                    <span class="status-badge bg-white text-secondary border">
+                                        <i class="bi bi-hourglass-split"></i> Unanalyzed
+                                    </span>
+                                <% } %>
+                            </div>
+
+                            <!-- Card Body (Details) -->
+                            <div class="card-info">
+                                <h5 class="fw-bold text-dark mb-2 text-truncate" title="Document <%= index + 1 %>">
+                                    Document <%= index + 1 %>
+                                </h5>
+
+                                <div class="d-flex align-items-center text-muted small mb-3 fw-medium">
+                                    <i class="bi bi-calendar3 me-2"></i>
+                                    <%= new Date(resume.uploadedAt).toLocaleDateString('en-US', { month: 'short' ,
+                                        day: 'numeric' , year: 'numeric' }) %>
+                                </div>
+
+                                <div>
+                                    <span class="doc-id-pill">
+                                        <i class="bi bi-hash text-primary"></i>
+                                        <%= resume.publicId.substring(0, 12) %>...
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Card Footer (Perfect 50/50 Split Actions) -->
+                            <div class="card-actions">
+                                
+                                <!-- 1. View Document Link (Smart Routing to trigger browser PDF Viewer) -->
+                                <a href="<%= viewUrl %>" target="_blank" class="btn-action btn-view">
+                                    <i class="bi <%= btnIcon %>"></i> <%= btnText %>
+                                </a>
+
+                                <!-- 2. Report/Analyze Link -->
+                                <% if (resume.analysis && resume.analysis.finalScore) { %>
+                                    <!-- If analysis exists, view report -->
+                                    <a href="/resume/report/<%= resume._id %>" class="btn-action btn-analyze">
+                                        <i class="bi bi-bar-chart-fill"></i> View Report
+                                    </a>
+                                <% } else { %>
+                                    <!-- If no analysis, start analysis -->
+                                    <a href="/target-role/<%= resume._id %>" class="btn-action btn-analyze">
+                                        <i class="bi bi-magic"></i> AI Analysis
+                                    </a>
+                                <% } %>
+                            </div>
+
+                        </div>
+                    </div>
+                <% }) %>
+
+            </div>
+
+        <% } else { %>
+            <!-- Empty State -->
+            <div class="empty-state animate-fade-up">
+                <div class="icon-box bg-primary bg-opacity-10 text-primary mx-auto mb-4"
+                    style="width: 80px; height: 80px; font-size: 2.5rem; border-radius: 1rem; box-shadow: inset 0 0 0 1px rgba(79,70,229,0.2);">
+                    <i class="bi bi-folder2-open"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2">Your library is empty</h3>
+                <p class="text-muted mb-4 max-w-md mx-auto fs-6">Upload your first resume to unlock AI-powered insights,
+                    keyword gap analysis, and ATS scoring.</p>
+                <a href="/resume/upload"
+                    class="btn btn-gradient rounded-pill px-5 py-3 fw-bold fs-6 shadow-sm d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-cloud-arrow-up-fill"></i> Select a File to Upload
+                </a>
+            </div>
+        <% } %>
+
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

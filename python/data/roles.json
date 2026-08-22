@@ -1,0 +1,746 @@
+{
+  "Software Engineer (General)": {
+    "description": "Engineers designing and delivering scalable software across core platforms using computer science fundamentals, modular design, and robust coding standards.",
+    "programming_languages": [
+      "Java",
+      "Python",
+      "C++",
+      "TypeScript",
+      "JavaScript",
+      "Go",
+      "C#",
+      "SQL"
+    ],
+    "frontend": [
+      "React",
+      "HTML5",
+      "CSS3",
+      "TypeScript"
+    ],
+    "backend": [
+      "Node.js",
+      "Spring Boot",
+      "Django",
+      "REST API",
+      "Microservices",
+      "gRPC"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL",
+      "MongoDB",
+      "Redis"
+    ],
+    "web_technologies": [
+      "HTTP",
+      "HTTPS",
+      "REST",
+      "JSON",
+      "WebSockets",
+      "OAuth 2.0"
+    ],
+    "cloud": [
+      "AWS",
+      "Azure",
+      "GCP"
+    ],
+    "devops": [
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "GitHub Actions",
+      "Jenkins"
+    ],
+    "tools": [
+      "Git",
+      "GitHub",
+      "Jira",
+      "Postman",
+      "VS Code",
+      "Linux"
+    ],
+    "cs_fundamentals": [
+      "Data Structures",
+      "Algorithms",
+      "OOP",
+      "System Design",
+      "Design Patterns",
+      "Operating Systems",
+      "Networks"
+    ],
+    "testing": [
+      "Unit Testing",
+      "Integration Testing",
+      "Jest",
+      "PyTest",
+      "JUnit"
+    ],
+    "soft_skills": [
+      "Problem Solving",
+      "Teamwork",
+      "Code Review",
+      "Agile",
+      "Communication"
+    ],
+    "project_keywords": [
+      "System Architecture",
+      "API Integration",
+      "Scalability",
+      "Performance Tuning"
+    ]
+  },
+  "Full Stack Developer": {
+    "description": "End-to-end web developers bridging user experience and server infrastructure using modern frontend frameworks and robust backend APIs.",
+    "programming_languages": [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "HTML5",
+      "CSS3",
+      "SQL"
+    ],
+    "frontend": [
+      "React",
+      "Next.js",
+      "Redux",
+      "Tailwind CSS",
+      "HTML5",
+      "CSS3"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js",
+      "REST API",
+      "GraphQL",
+      "Django"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MongoDB",
+      "MySQL",
+      "Redis"
+    ],
+    "web_technologies": [
+      "REST",
+      "JWT",
+      "OAuth 2.0",
+      "WebSockets",
+      "CORS",
+      "HTTP"
+    ],
+    "cloud": [
+      "AWS",
+      "Vercel"
+    ],
+    "devops": [
+      "Docker",
+      "CI/CD",
+      "GitHub Actions",
+      "Nginx"
+    ],
+    "tools": [
+      "Git",
+      "GitHub",
+      "VS Code",
+      "Postman",
+      "npm"
+    ],
+    "cs_fundamentals": [
+      "State Management",
+      "API Design",
+      "MVC Architecture",
+      "Async Programming"
+    ],
+    "testing": [
+      "Jest",
+      "Cypress",
+      "React Testing Library"
+    ],
+    "soft_skills": [
+      "Problem Solving",
+      "Collaboration",
+      "Agile"
+    ],
+    "project_keywords": [
+      "Full Stack Web App",
+      "User Authentication",
+      "Admin Dashboard",
+      "E-commerce"
+    ]
+  },
+  "Frontend Developer": {
+    "description": "Client-side specialists focused on responsive UI execution, web performance, component design systems, and cross-browser accessibility.",
+    "programming_languages": [
+      "JavaScript",
+      "TypeScript",
+      "HTML5",
+      "CSS3"
+    ],
+    "frontend": [
+      "React",
+      "Next.js",
+      "Vue.js",
+      "Redux Toolkit",
+      "Tailwind CSS",
+      "SASS",
+      "Material-UI"
+    ],
+    "backend": [
+      "REST API",
+      "GraphQL"
+    ],
+    "databases": [
+      "LocalStorage",
+      "SessionStorage",
+      "IndexedDB"
+    ],
+    "web_technologies": [
+      "DOM",
+      "Responsive Design",
+      "WCAG",
+      "Web Vitals",
+      "PWA",
+      "CORS"
+    ],
+    "cloud": [
+      "Vercel",
+      "Netlify"
+    ],
+    "devops": [
+      "Vite",
+      "Webpack",
+      "npm",
+      "Yarn"
+    ],
+    "tools": [
+      "Git",
+      "GitHub",
+      "VS Code",
+      "Chrome DevTools",
+      "Figma"
+    ],
+    "cs_fundamentals": [
+      "Event Loop",
+      "State Management",
+      "Component Architecture"
+    ],
+    "testing": [
+      "Jest",
+      "React Testing Library",
+      "Cypress"
+    ],
+    "soft_skills": [
+      "Attention to Detail",
+      "UI/UX",
+      "Communication"
+    ],
+    "project_keywords": [
+      "Responsive Web UI",
+      "Component Library",
+      "Performance Optimization",
+      "SPA"
+    ]
+  },
+  "Backend Developer": {
+    "description": "Server-side architecture experts building data-intensive services, background task pipelines, security layers, and relational schema designs.",
+    "programming_languages": [
+      "Python",
+      "Java",
+      "Node.js",
+      "TypeScript",
+      "Go",
+      "SQL"
+    ],
+    "frontend": [
+      "HTML5",
+      "CSS3"
+    ],
+    "backend": [
+      "Express.js",
+      "FastAPI",
+      "Django",
+      "Spring Boot",
+      "REST API",
+      "GraphQL",
+      "Microservices",
+      "Kafka",
+      "RabbitMQ"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL",
+      "MongoDB",
+      "Redis",
+      "Elasticsearch"
+    ],
+    "web_technologies": [
+      "REST",
+      "OAuth 2.0",
+      "JWT",
+      "Webhooks",
+      "Rate Limiting"
+    ],
+    "cloud": [
+      "AWS",
+      "GCP",
+      "Azure"
+    ],
+    "devops": [
+      "Docker",
+      "Kubernetes",
+      "Nginx",
+      "CI/CD",
+      "GitHub Actions"
+    ],
+    "tools": [
+      "Git",
+      "Postman",
+      "Swagger",
+      "Linux"
+    ],
+    "cs_fundamentals": [
+      "System Design",
+      "Database Indexing",
+      "Caching",
+      "Concurrency",
+      "ACID"
+    ],
+    "testing": [
+      "PyTest",
+      "JUnit",
+      "Integration Testing",
+      "Load Testing"
+    ],
+    "soft_skills": [
+      "Analytical Skills",
+      "Problem Solving",
+      "Teamwork"
+    ],
+    "project_keywords": [
+      "Microservices Architecture",
+      "API Development",
+      "Database Optimization",
+      "Authentication"
+    ]
+  },
+  "Java Developer": {
+    "description": "Enterprise software engineers building resilient, multi-threaded backend infrastructure and corporate business logic with Spring and Java ecosystems.",
+    "programming_languages": [
+      "Java",
+      "Core Java",
+      "SQL"
+    ],
+    "frontend": [
+      "HTML5",
+      "CSS3",
+      "Thymeleaf"
+    ],
+    "backend": [
+      "Spring Boot",
+      "Spring MVC",
+      "Spring Security",
+      "Spring Data JPA",
+      "Hibernate",
+      "REST API",
+      "Microservices",
+      "Kafka"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL",
+      "Oracle DB",
+      "Redis"
+    ],
+    "web_technologies": [
+      "REST",
+      "JWT",
+      "OAuth 2.0",
+      "JSON",
+      "XML"
+    ],
+    "cloud": [
+      "AWS",
+      "Azure"
+    ],
+    "devops": [
+      "Maven",
+      "Gradle",
+      "Docker",
+      "Jenkins"
+    ],
+    "tools": [
+      "IntelliJ IDEA",
+      "Git",
+      "Postman",
+      "Swagger",
+      "Jira"
+    ],
+    "cs_fundamentals": [
+      "OOP",
+      "JVM Tuning",
+      "Multithreading",
+      "Concurrency",
+      "Design Patterns"
+    ],
+    "testing": [
+      "JUnit 5",
+      "Mockito",
+      "Testcontainers"
+    ],
+    "soft_skills": [
+      "Problem Solving",
+      "Code Review",
+      "Agile"
+    ],
+    "project_keywords": [
+      "Enterprise Applications",
+      "Microservices",
+      "Spring Boot Backend",
+      "Performance Tuning"
+    ]
+  },
+  "Python Developer": {
+    "description": "Backend and automation specialists leveraging Python frameworks to design scalable web services, API orchestration, and backend integrations.",
+    "programming_languages": [
+      "Python",
+      "SQL",
+      "Bash"
+    ],
+    "frontend": [
+      "Jinja2",
+      "HTML5",
+      "CSS3"
+    ],
+    "backend": [
+      "FastAPI",
+      "Django",
+      "Flask",
+      "Celery",
+      "REST API"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL",
+      "Redis",
+      "SQLite",
+      "SQLAlchemy",
+      "Django ORM"
+    ],
+    "web_technologies": [
+      "REST",
+      "JWT",
+      "OAuth 2.0",
+      "Web Scraping"
+    ],
+    "cloud": [
+      "AWS",
+      "GCP"
+    ],
+    "devops": [
+      "Docker",
+      "GitHub Actions",
+      "Gunicorn",
+      "Nginx"
+    ],
+    "tools": [
+      "Git",
+      "PyCharm",
+      "VS Code",
+      "Postman",
+      "Linux"
+    ],
+    "cs_fundamentals": [
+      "Asyncio",
+      "OOP",
+      "Data Structures",
+      "Algorithms"
+    ],
+    "testing": [
+      "PyTest",
+      "Unittest"
+    ],
+    "soft_skills": [
+      "Problem Solving",
+      "Analytical Skills",
+      "Agile"
+    ],
+    "project_keywords": [
+      "REST Microservice",
+      "Async Automation",
+      "Web Scraping Pipeline",
+      "Django Web App"
+    ]
+  },
+  "Data Analyst": {
+    "description": "Data specialists transforming business data into actionable insights through SQL analytics, BI dashboards, statistical summaries, and data modeling.",
+    "programming_languages": [
+      "SQL",
+      "Python",
+      "R"
+    ],
+    "frontend": [],
+    "backend": [
+      "Python Scripts"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MySQL",
+      "Snowflake",
+      "BigQuery",
+      "Redshift"
+    ],
+    "web_technologies": [
+      "REST API"
+    ],
+    "cloud": [
+      "AWS",
+      "GCP",
+      "Databricks"
+    ],
+    "devops": [
+      "Git"
+    ],
+    "tools": [
+      "Tableau",
+      "Power BI",
+      "Excel",
+      "Jupyter Notebook",
+      "Pandas",
+      "NumPy",
+      "dbt"
+    ],
+    "cs_fundamentals": [
+      "Data Modeling",
+      "Statistics",
+      "Data Cleaning",
+      "A/B Testing",
+      "ETL"
+    ],
+    "testing": [
+      "Data Validation"
+    ],
+    "soft_skills": [
+      "Data Storytelling",
+      "Critical Thinking",
+      "Communication",
+      "Business Acumen"
+    ],
+    "project_keywords": [
+      "BI Dashboard",
+      "Churn Analysis",
+      "ETL Pipeline",
+      "SQL Queries"
+    ]
+  },
+  "Data Scientist": {
+    "description": "Quantitative researchers and developers applying machine learning models, statistical inference, and predictive analytics to solve complex business queries.",
+    "programming_languages": [
+      "Python",
+      "R",
+      "SQL"
+    ],
+    "frontend": [
+      "Streamlit",
+      "Gradio"
+    ],
+    "backend": [
+      "FastAPI",
+      "Flask"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "Snowflake",
+      "BigQuery",
+      "MongoDB"
+    ],
+    "web_technologies": [
+      "REST API"
+    ],
+    "cloud": [
+      "AWS SageMaker",
+      "GCP Vertex AI",
+      "Databricks"
+    ],
+    "devops": [
+      "Docker",
+      "MLflow",
+      "Git"
+    ],
+    "tools": [
+      "Pandas",
+      "NumPy",
+      "Scikit-Learn",
+      "SciPy",
+      "Jupyter Notebook",
+      "Spark"
+    ],
+    "cs_fundamentals": [
+      "Machine Learning",
+      "Hypothesis Testing",
+      "Feature Engineering",
+      "Linear Algebra"
+    ],
+    "testing": [
+      "Cross-Validation",
+      "A/B Testing"
+    ],
+    "soft_skills": [
+      "Analytical Thinking",
+      "Data Storytelling",
+      "Problem Solving"
+    ],
+    "project_keywords": [
+      "Predictive Model",
+      "Recommendation Engine",
+      "Customer Segmentation",
+      "Machine Learning"
+    ]
+  },
+  "Machine Learning Engineer": {
+    "description": "Engineers bridging machine learning research and software production by building scalable MLOps infrastructure, model serving, and fine-tuning pipelines.",
+    "programming_languages": [
+      "Python",
+      "C++",
+      "SQL",
+      "Bash"
+    ],
+    "frontend": [
+      "Gradio",
+      "Streamlit"
+    ],
+    "backend": [
+      "FastAPI",
+      "Triton Inference Server",
+      "gRPC",
+      "TorchServe"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "Redis",
+      "Pinecone",
+      "Milvus",
+      "ChromaDB"
+    ],
+    "web_technologies": [
+      "REST API",
+      "WebSockets"
+    ],
+    "cloud": [
+      "AWS SageMaker",
+      "GCP Vertex AI"
+    ],
+    "devops": [
+      "Docker",
+      "Kubernetes",
+      "MLflow",
+      "Airflow",
+      "CI/CD"
+    ],
+    "tools": [
+      "PyTorch",
+      "TensorFlow",
+      "Hugging Face",
+      "Scikit-Learn",
+      "OpenCV"
+    ],
+    "cs_fundamentals": [
+      "Deep Learning",
+      "Transformers",
+      "LLM",
+      "RAG",
+      "Quantization",
+      "GPU Computing"
+    ],
+    "testing": [
+      "PyTest",
+      "Model Monitoring"
+    ],
+    "soft_skills": [
+      "Problem Solving",
+      "R&D to Production",
+      "Collaboration"
+    ],
+    "project_keywords": [
+      "RAG Pipeline",
+      "LLM Fine-Tuning",
+      "Model Inference API",
+      "MLOps"
+    ]
+  },
+  "MERN Stack Developer": {
+    "description": "Full-stack JavaScript developers constructing high-performance web applications specifically utilizing MongoDB, Express.js, React, and Node.js.",
+    "programming_languages": [
+      "JavaScript",
+      "TypeScript",
+      "HTML5",
+      "CSS3"
+    ],
+    "frontend": [
+      "React",
+      "Redux Toolkit",
+      "Context API",
+      "Tailwind CSS",
+      "React Router"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js",
+      "REST API",
+      "Socket.io",
+      "JWT"
+    ],
+    "databases": [
+      "MongoDB",
+      "Mongoose",
+      "MongoDB Atlas",
+      "Redis"
+    ],
+    "web_technologies": [
+      "HTTP",
+      "JWT",
+      "CORS",
+      "WebSockets",
+      "REST"
+    ],
+    "cloud": [
+      "AWS",
+      "Vercel",
+      "Render"
+    ],
+    "devops": [
+      "Git",
+      "GitHub",
+      "Docker",
+      "Nginx",
+      "PM2"
+    ],
+    "tools": [
+      "VS Code",
+      "Postman",
+      "MongoDB Compass",
+      "npm"
+    ],
+    "cs_fundamentals": [
+      "Async JavaScript",
+      "Event Loop",
+      "MVC Pattern",
+      "NoSQL Schema Design"
+    ],
+    "testing": [
+      "Jest",
+      "React Testing Library",
+      "Supertest"
+    ],
+    "soft_skills": [
+      "Problem Solving",
+      "Agile",
+      "Rapid Prototyping"
+    ],
+    "project_keywords": [
+      "MERN E-Commerce",
+      "Real-Time Chat",
+      "JWT Authentication",
+      "SPA"
+    ]
+  }
+}
