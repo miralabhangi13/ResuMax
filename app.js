@@ -82,9 +82,6 @@ if (process.env.NODE_ENV === "production") {
     app.set("trust proxy", 1);
 }
 
-// Debug information
-console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("Session secure:", sessionOptions.cookie.secure);
 
 // Session middleware
 app.use(session(sessionOptions));
