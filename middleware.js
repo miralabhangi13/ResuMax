@@ -1,5 +1,6 @@
 const rateLimit=require("express-rate-limit");
 const multer=require("multer");
+require("fs").mkdirSync("uploads",{recursive:true});
 module.exports.authLimit = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 15,
