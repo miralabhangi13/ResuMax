@@ -1,4 +1,4 @@
-const rateLimit=require("express-rate-limit");
+const { rateLimit, ipKeyGenerator } = require("express-rate-limit");
 const multer=require("multer");
 require("fs").mkdirSync("uploads",{recursive:true});
 module.exports.authLimit = rateLimit({
@@ -6,6 +6,9 @@ module.exports.authLimit = rateLimit({
     limit: 15,
     standardHeaders: true,
     legacyHeaders: false,
+    // Count each auth route separately, so a normal signup/verify/login
+    // sequence doesn't use up one shared allowance.
+    keyGenerator: (req) => `${ipKeyGenerator(req.ip)}:${req.path}`,
     message: "Too many requests. Please try again after 15 minutes."
 });
 module.exports.storage=multer.diskStorage({

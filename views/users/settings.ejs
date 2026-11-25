@@ -336,11 +336,11 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="newPassword" class="form-label small fw-semibold text-muted">New Password</label>
-                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required minlength="6" placeholder="New">
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required minlength="8" placeholder="New">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="confirmPassword" class="form-label small fw-semibold text-muted">Confirm Password</label>
-                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required minlength="6" placeholder="Confirm">
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required minlength="8" placeholder="Confirm">
                                     </div>
                                     <div class="col-12 mt-3">
                                         <button type="submit" class="btn btn-dark btn-sm rounded-pill px-4 fw-medium" id="pwdSubmitBtn">
@@ -447,9 +447,14 @@
                     return;
                 }
 
-                if (newPassword.length < 6) {
+                const strong = newPassword.length >= 8 &&
+                    /[A-Z]/.test(newPassword) &&
+                    /[a-z]/.test(newPassword) &&
+                    /[0-9]/.test(newPassword) &&
+                    /[^A-Za-z0-9]/.test(newPassword);
+                if (!strong) {
                     e.preventDefault();
-                    showToast("Password must be at least 6 characters.", "error");
+                    showToast("Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number and a special character.", "error");
                     return;
                 }
 

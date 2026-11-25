@@ -257,7 +257,7 @@
             <form action="/verify-otp" method="POST" id="otpForm">
                 
                 <!-- Hidden inputs for backend processing -->
-                <input type="hidden" name="email" value="<%= email %>">
+                <input type="hidden" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>">
                 <input type="hidden" name="otp" id="finalOtpInput">
 
                 <!-- 6-Digit OTP Inputs -->

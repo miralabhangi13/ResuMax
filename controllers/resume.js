@@ -12,7 +12,7 @@ module.exports.uploadResume = async (req, res) => {
 
         if (resumeCount >= 2) {
             return res.render("dashbord/upload-resume", {
-                error: "You can upload a maximum of 2 resumes."
+                error: "You can upload a maximum of 2 resumes. Delete one from My Resumes to upload another."
             });
         }
 
@@ -49,7 +49,13 @@ module.exports.uploadResume = async (req, res) => {
     }
 };
 module.exports.fullAnalysis = async (req, res) => {
-    const resume = await Resume.findById(req.params.id);
+    const resume = await Resume.findOne({
+        _id: req.params.id,
+        owner: req.user._id
+    });
+    if (!resume) {
+        return res.status(404).send("Resume not found");
+    }
 
     const role = req.body.selectedRole;
     const jobDescription = req.body.jobDescription;

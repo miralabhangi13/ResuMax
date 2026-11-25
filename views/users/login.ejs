@@ -288,7 +288,7 @@
                         <span class="input-group-text bg-light border-end-0 text-muted">
                             <i class="bi bi-envelope"></i>
                         </span>
-                        <input type="email" class="form-control border-start-0 ps-0" id="email" name="email"
+                        <input type="email" class="form-control border-start-0 ps-0" id="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>"
                             placeholder="name@example.com" required>
                     </div>
                 </div>
@@ -383,6 +383,18 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 showToast(<%- JSON.stringify(messages.error) %>);
+            });
+        </script>
+    <% } else if (typeof success !== 'undefined' && success && success.length > 0) { %>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const toast = document.getElementById('customToast');
+                const icon = toast.querySelector('.icon-wrapper');
+                icon.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
+                icon.style.backgroundColor = '#d1fae5';
+                icon.style.color = '#10b981';
+                toast.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+                showToast(<%- JSON.stringify(success) %>);
             });
         </script>
     <% } %>

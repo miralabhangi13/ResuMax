@@ -17,13 +17,16 @@ router.get("/home", (req, res) => {
     res.render("users/home")
 })
 router.get("/login", (req, res) => {
+    if (req.isAuthenticated()) return res.redirect("/dashbord");
     res.render("users/login")
 })
 router.get("/signup", (req, res) => {
+    if (req.isAuthenticated()) return res.redirect("/dashbord");
     res.render("users/signup")
 })
 router.post("/signup", authLimit, wrapAsync(userController.newUSer));
 router.post("/login", authLimit, async (req, res, next) => {
+    req.body.email = userController.cleanEmail(req.body.email);
     const user = await User.findOne({ email: req.body.email }).select("+hash +salt");
     if (!user) return next();
     if (user && user.googleId) {
@@ -67,13 +70,14 @@ router.get("/forgot-password", (req, res) => {
     res.render("users/forgot");
 })
 router.post("/forgot-password", authLimit, wrapAsync(userController.forgot))
-router.post("/verify-otp", authLimit, isLoggedIn, wrapAsync(async (req, res) => {
-    const { email } = req.body;
+router.post("/verify-otp", authLimit, wrapAsync(async (req, res) => {
+    const email = userController.cleanEmail(req.body.email);
     const otp = Number(req.body.otp);
     const user = await User.findOne({ email });
     if (!user) {
-        return res.render("users/enter-otp", {
-            error: "Invalid request user not found."
+        return res.render("users/forgot", {
+            email,
+            error: "Invalid request. Please enter your email again."
         })
     }
     if (user.resetOtpAttempts >= 5) {
@@ -113,18 +117,25 @@ router.post("/verify-otp", authLimit, isLoggedIn, wrapAsync(async (req, res) => 
         })
     }
     user.resetVerified = true
-    user.resetVerifiedExpiry = Date.now() + 15 * 60 * 1000;
+    user.resetVerifiedExpiry = Date.now() + userController.RESET_WINDOW_MS;
     user.resetOtp = null;
     user.otpExpiry = null;
     user.resetOtpAttempts = 0;
     user.resetOtpResendAfter = null;
+    // The code proves they own this email, so an unverified account becomes verified too.
+    user.verified = true;
     await user.save();
+    // Only this browser may set the new password.
+    req.session.passwordReset = {
+        email,
+        expires: Date.now() + userController.RESET_WINDOW_MS
+    };
     res.render("users/reset-password", {
         email,
     });
 }))
 router.post("/verify-account", authLimit, wrapAsync(async (req, res, next) => {
-    const email = req.body.email;
+    const email = userController.cleanEmail(req.body.email);
     const otp = Number(req.body.otp);
     const user = await User.findOne({ email });
     if (!user) {
@@ -181,18 +192,12 @@ router.post("/verify-account", authLimit, wrapAsync(async (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.render("dashbord/dashbord", {
-            user: req.user,
-            resumeCount: req.user.resumeCount,
-            highestATSScore: req.user.highestATSScore,
-            aiSuggestionCount: req.user.aiSuggestionCount,
-            downloadCount: req.user.downloadCount
-        });
+        res.redirect("/dashbord");
     });
 }))
-router.post("/resend-verification-otp", authLimit, isLoggedIn, async (req, res) => {
+router.post("/resend-verification-otp", authLimit, async (req, res) => {
     try {
-        const { email } = req.body;
+        const email = userController.cleanEmail(req.body.email);
 
         const user = await User.findOne({ email });
         if (!user) {
@@ -238,7 +243,7 @@ router.post("/resend-verification-otp", authLimit, isLoggedIn, async (req, res) 
 });
 router.post("/resend-otp", authLimit, async (req, res) => {
     try {
-        const { email } = req.body;
+        const email = userController.cleanEmail(req.body.email);
 
         const user = await User.findOne({ email });
 
@@ -297,12 +302,13 @@ router.post("/logout", isLoggedIn, (req, res, next) => {
 router.get("/resume/upload", isLoggedIn, (req, res) => {
     res.render("dashbord/upload-resume");
 })
-router.get("/resume/analyze/:id", (req, res) => {
+router.get("/resume/analyze/:id", isLoggedIn, (req, res) => {
     res.render("dashbord/role", {
         resumeId: req.params.id
     });
 });
 router.post("/resume/upload",
+    isLoggedIn,
     upload.single("resumeFile"),
     resumeController.uploadResume
 )
@@ -404,9 +410,13 @@ router.get("/resume/chat/:id", isLoggedIn, async (req, res) => {
     if (!selectedResume) {
         return res.status(404).send("Resume not found");
     }
+    const resumes = await Resume.find({
+        owner: req.user._id
+    }).sort({ uploadedAt: -1 }).select("_id uploadedAt");
     res.render("dashbord/chat", {
         user: req.user,
-        selectedResume: selectedResume
+        selectedResume: selectedResume,
+        resumes: resumes
     });
 });
 router.get("/profile/edit", isLoggedIn, async (req, res) => {
@@ -430,7 +440,7 @@ router.post("/profile/edit", isLoggedIn, async (req, res) => {
 
     res.redirect("/dashbord");
 });
-router.get("/settings", isLoggedIn, async (req, res) => {
+async function renderSettings(req, res, extra = {}) {
 
     const resumeCount = await Resume.countDocuments({
         owner: req.user._id
@@ -450,13 +460,41 @@ router.get("/settings", isLoggedIn, async (req, res) => {
         maxResumes: maxResumes,
         aiQuestionsUsed: aiQuestionsUsed,
         maxAiQuestions: maxAiQuestions,
-        accountCreatedDate: accountCreatedDate
+        accountCreatedDate: accountCreatedDate,
+        ...extra
     });
-});
+}
+router.get("/settings", isLoggedIn, wrapAsync(async (req, res) => {
+    await renderSettings(req, res);
+}));
+router.post("/settings/password", isLoggedIn, wrapAsync(async (req, res) => {
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    const user = await User.findById(req.user._id).select("+hash +salt");
+    if (!user || !user.hash) {
+        return renderSettings(req, res, {
+            error: "This account has no password yet. Use Forgot Password to set one."
+        });
+    }
+    if (!userController.isStrongPassword(newPassword)) {
+        return renderSettings(req, res, { error: userController.PASSWORD_RULES });
+    }
+    if (newPassword !== confirmPassword) {
+        return renderSettings(req, res, { error: "New passwords do not match." });
+    }
+
+    const { user: valid } = await user.authenticate(oldPassword || "");
+    if (!valid) {
+        return renderSettings(req, res, { error: "Current password is incorrect." });
+    }
+
+    await user.setPassword(newPassword);
+    await user.save();
+
+    return renderSettings(req, res, { success: "Password updated successfully." });
+}));
 router.get("/change-password", isLoggedIn, (req, res) => {
-    res.render("users/reset-password", {
-        email: req.user.email
-    });
+    res.redirect("/settings");
 });
 router.post(
     "/settings/delete-account",
@@ -528,7 +566,26 @@ router.post(
     })
 );
 router.post("/resume/chat/:id", isLoggedIn, wrapAsync(resumeController.chatWithResume));
-router.post("/update-password", wrapAsync(userController.update_password));
-router.post("/analyze-resume", wrapAsync(resumeController.fullAnalysis));
-router.post("/resume/analyze/:id", wrapAsync(resumeController.fullAnalysis));
+router.post("/update-password", authLimit, wrapAsync(userController.update_password));
+router.post("/resume/analyze/:id", isLoggedIn, wrapAsync(resumeController.fullAnalysis));
+router.post("/resume/delete/:id", isLoggedIn, wrapAsync(async (req, res) => {
+    const resume = await Resume.findOne({
+        _id: req.params.id,
+        owner: req.user._id
+    });
+    if (!resume) {
+        return res.status(404).send("Resume not found");
+    }
+    if (resume.publicId) {
+        try {
+            await cloudinary.uploader.destroy(resume.publicId, {
+                resource_type: "raw"
+            });
+        } catch (err) {
+            console.error("Cloudinary delete error:", err);
+        }
+    }
+    await Resume.deleteOne({ _id: resume._id });
+    res.redirect("/resumes");
+}));
 module.exports = router;
